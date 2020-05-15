@@ -1,10 +1,10 @@
 package com.techmahidra.employeemanagement.data
 
+import androidx.lifecycle.MutableLiveData
 
-import com.google.gson.annotations.SerializedName
 
 data class AddEmployeeRequest(
-    val age: String,
-    val name: String,
-    val salary: String
-)
+    var age: String,
+    var name: String,
+    var salary: String
+) : MutableLiveData<AddEmployeeRequest>()

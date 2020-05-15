@@ -1,4 +1,4 @@
-package com.techmahidra.employeemanagement.ui.employeelist.adapter
+package com.techmahidra.employeemanagement.ui.employeeList.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.techmahidra.employeemanagement.R
 import com.techmahidra.employeemanagement.core.EmployeeApplication
 import com.techmahidra.employeemanagement.data.response.EmployeeListResponse
+import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment
 import com.techmahidra.employeemanagement.utilities.loadImage
 import kotlinx.android.synthetic.main.adapter_employee_list.view.*
+import java.util.*
 
 
 /* *
 * EmployeeListAdapter - helps to bind data in feature recyclerview
 * highlight the selected list item*/
-class EmployeeListAdapter(private val employeeRow: List<EmployeeListResponse.Data>) :
+class EmployeeListAdapter(private val empListFragment : EmployeeListFragment, private val employeeList: List<EmployeeListResponse.Data>) :
     RecyclerView.Adapter<EmployeeListAdapter.ViewHolder>() {
 
     var rowIndex = -1 // default selected row index
@@ -26,10 +28,10 @@ class EmployeeListAdapter(private val employeeRow: List<EmployeeListResponse.Dat
     }
 
     //get list item count
-    override fun getItemCount() = employeeRow.size
+    override fun getItemCount() = employeeList.size
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(employeeRow[position], position)
+        viewHolder.bind(employeeList[position], position)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -66,6 +68,31 @@ class EmployeeListAdapter(private val employeeRow: List<EmployeeListResponse.Dat
                 notifyDataSetChanged() // notify when data change
             }
         }
+    }
+    fun empSearchFilter(charText: String) {
+        var charText = charText
+        charText = charText.toLowerCase(Locale.getDefault())
+        EmployeeListFragment.modifiedFeatureList.clear()
+        if (charText.length == 0) {
+            EmployeeListFragment.modifiedFeatureList.addAll(employeeList)
+            //empListFragment.showData()
+        } else {//getDriverList
+            for (item in employeeList) {
+
+                if (item.employeeName.toLowerCase(Locale.getDefault()).contains(charText)) {
+                    EmployeeListFragment.modifiedFeatureList.add(item)
+                }
+            }
+            if(EmployeeListFragment.modifiedFeatureList.size==0)
+            {
+                empListFragment.showNoData()
+            }
+            else
+            {
+                empListFragment.updateUI(EmployeeListFragment.modifiedFeatureList)
+            }
+        }
+        notifyDataSetChanged()
     }
 
 }

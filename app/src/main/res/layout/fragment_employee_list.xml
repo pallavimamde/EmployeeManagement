@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.employeelist.EmployeeListFragment">
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-<
-        <LinearLayout
+        android:layout_height="match_parent"
+        tools:context=".ui.employeeList.EmployeeListFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/const_layout_emp_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:paddingHorizontal="@dimen/dimen_10">
+
+            <SearchView
+                android:id="@+id/search_emp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_30"
+                android:layout_marginVertical="@dimen/dimen_20"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search by emp name"
+                app:layout_constraintBottom_toTopOf="@+id/rv_emp_info_list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:queryBackground="@null" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_general_info_list"
+                android:id="@+id/rv_emp_info_list"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_0"
-                android:layout_weight="1"
+                android:layout_height="0dp"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_emp" />
 
-            <include
+          <!--  <include
                 layout="@layout/no_data_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_0"
-                android:layout_weight="1"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_emp" />
 
-
-        </LinearLayout>
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-</FrameLayout>
+-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -3,10 +3,16 @@ package com.techmahidra.employeemanagement.core
 import android.app.Application
 import android.content.Context
 
-class EmployeeApplication : Application(){
+/* *
+* TelstraApplication - Base application, create singleton instance of class
+* */
+class EmployeeApplication : Application() {
+    lateinit var sharedPrefs : PreferencesImpl
+
     init {
         instance = this
     }
+
 
     companion object {
         private var instance: EmployeeApplication? = null
@@ -18,7 +24,15 @@ class EmployeeApplication : Application(){
 
     override fun onCreate() {
         super.onCreate()
-
+        sharedPrefs = PreferencesImpl(this)
     }
+
+    fun getEmpInfo(): PreferencesImpl {
+        return sharedPrefs
+    }
+
+
+
+
 
 }

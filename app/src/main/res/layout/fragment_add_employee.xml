@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.addEmp.AddEmployeeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_layout_emp_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/dimen_10">
+        <TextView
+            android:id="@+id/tv_add_emp_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textsize_21"
+            android:text="@string/add_emp"
+            android:layout_marginVertical="@dimen/dimen_20"
+            android:gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/etv_add_emp_name"/>
+        <EditText
+            android:id="@+id/etv_add_emp_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_marginBottom="@dimen/dimen_10"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_emp_title"
+            app:layout_constraintBottom_toTopOf="@+id/etv_add_emp_age"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <EditText
+            android:id="@+id/etv_add_emp_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_age"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_marginBottom="@dimen/dimen_10"
+            app:layout_constraintTop_toBottomOf="@+id/etv_add_emp_name"
+            app:layout_constraintBottom_toTopOf="@+id/etv_add_emp_salary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <EditText
+            android:id="@+id/etv_add_emp_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_salary"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_marginBottom="@dimen/dimen_10"
+            app:layout_constraintTop_toBottomOf="@+id/etv_add_emp_age"
+            app:layout_constraintBottom_toTopOf="@+id/btn_add_emp_submit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <Button
+            android:id="@+id/btn_add_emp_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:textSize="@dimen/textsize_14"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="@dimen/dimen_20"
+            app:layout_constraintTop_toBottomOf="@+id/etv_add_emp_salary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

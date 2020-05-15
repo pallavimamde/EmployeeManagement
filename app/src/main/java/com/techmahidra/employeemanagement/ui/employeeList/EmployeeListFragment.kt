@@ -1,7 +1,7 @@
-package com.techmahidra.employeemanagement.ui.employeelist
+package com.techmahidra.employeemanagement.ui.employeeList
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
+import androidx.appcompat.app.ActionBar
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
@@ -9,16 +9,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 
 import com.techmahidra.employeemanagement.R
 import com.techmahidra.employeemanagement.core.EmployeeApplication
 import com.techmahidra.employeemanagement.data.response.EmployeeListResponse
-import com.techmahidra.employeemanagement.ui.employeelist.adapter.EmployeeListAdapter
+import com.techmahidra.employeemanagement.ui.employeeList.adapter.EmployeeListAdapter
 import com.techmahidra.employeemanagement.utilities.NetworkConnectionStatus
 import kotlinx.android.synthetic.main.fragment_employee_list.*
 import kotlinx.android.synthetic.main.no_data_layout.*
@@ -28,13 +31,17 @@ import kotlinx.android.synthetic.main.no_data_layout.*
  * Use the [EmployeeListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EmployeeListFragment : Fragment(), UIHandler {
+class EmployeeListFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    private var employeeListViewModel : EmployeeListViewModel? = null
+    private var employeeListViewModel: EmployeeListViewModel? = null
+    private var employeeListAdapter: RecyclerView.Adapter<EmployeeListAdapter.ViewHolder>? = null
     private var actionBar: ActionBar? = null
-    lateinit var loadingDialog: Dialog
+    private lateinit var loadingDialog: Dialog
     private var isRefreshing = false
 
+    companion object {
+        val modifiedFeatureList: ArrayList<EmployeeListResponse.Data> = ArrayList()
+    }
 
     // Inflate the layout for this fragment
     override fun onCreateView(
@@ -49,8 +56,10 @@ class EmployeeListFragment : Fragment(), UIHandler {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.title = ""
+        search_emp.setOnQueryTextListener(this)
         loadingDialog = Dialog(activity as AppCompatActivity)
         loadingDialog.setCancelable(false)
         loadingDialog.setCanceledOnTouchOutside(false)
@@ -74,28 +83,28 @@ class EmployeeListFragment : Fragment(), UIHandler {
             NetworkConnectionStatus(EmployeeApplication.applicationContext()).isOnline()
         if (hasInternetConnected) {
             if (!isRefreshing) { // if default refreshing is visible don't show loading dialog
-                showLoading(
+                /*showLoading(
                     EmployeeApplication.applicationContext().resources.getString(
                         R.string.please_wait
                     )
-                )
+                )*/
             }
             // check the observer when api response is success and update list
-            employeeListViewModel?.employeeList?.observe(
-               this, Observer { employeeListResponse ->
+            employeeListViewModel?.employeeListVM?.observe(
+                this, Observer { employeeListResponse ->
                     updateUI(employeeListResponse)
-                    hideLoading()
+                    //hideLoading()
                 })
 
 
-          /*  //check the observer when api response is failed and show the error
-            employeeListViewModel.apiResponseFail.observe(
-                this,
-                Observer(function = fun(apiResponseFail: ApiResponseFail) {
-                    showError(apiResponseFail.error)
-                    hideLoading()
-                })
-            )*/
+            /*  //check the observer when api response is failed and show the error
+              employeeListViewModel.apiResponseFail.observe(
+                  this,
+                  Observer(function = fun(apiResponseFail: ApiResponseFail) {
+                      showError(apiResponseFail.error)
+                      hideLoading()
+                  })
+              )*/
         } else {
             showError(EmployeeApplication.applicationContext().resources.getString(R.string.network_error))
         }
@@ -103,9 +112,7 @@ class EmployeeListFragment : Fragment(), UIHandler {
 
     // update UI
     @SuppressLint("WrongConstant")
-    private fun updateUI(response: List<EmployeeListResponse.Data>) {
-        val modifiedFeatureList: ArrayList<EmployeeListResponse.Data> = ArrayList()
-
+    fun updateUI(response: List<EmployeeListResponse.Data>) {
         // set actionbar title
         if (actionBar != null) {
             actionBar?.title = "DEMO"
@@ -135,37 +142,53 @@ class EmployeeListFragment : Fragment(), UIHandler {
                     modifiedFeatureList.add(item)
                 }
             }
-            // initialize the @FeatureListAdapter and set list
-            val featureListAdapter = EmployeeListAdapter(modifiedFeatureList)
-            rv_general_info_list.adapter = featureListAdapter
+            // initialize the @EmployeeListAdapter and set list
+            employeeListAdapter = EmployeeListAdapter(this, modifiedFeatureList)
+            rv_emp_info_list.adapter = employeeListAdapter
         } else {
             showNoData()
         }
     }
 
     // if there will be any error occurred while server call
-    override fun showError(errorMsg: String) {
-        Toast.makeText(EmployeeApplication.applicationContext(), errorMsg, Toast.LENGTH_SHORT).show()
+     fun showError(errorMsg: String) {
+        Toast.makeText(EmployeeApplication.applicationContext(), errorMsg, Toast.LENGTH_SHORT)
+            .show()
     }
 
     // show dialog while loading data from server
-    override fun showLoading(loadingMessage: String) {
+     fun showLoading(loadingMessage: String) {
         loadingDialog.setContentView(R.layout.progress_bar)
-        loadingDialog.show()
+//        loadingDialog.show()
 
     }
 
     // hide loading
-    override fun hideLoading() {
+     fun hideLoading() {
         loadingDialog.dismiss()
     }
 
     // if there is empty list then so no data layout
-    override fun showNoData() {
-        rv_general_info_list.visibility = View.GONE
+     fun showNoData() {
+        rv_emp_info_list.visibility = View.GONE
         tv_no_data.visibility = View.VISIBLE
     }
 
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            try {
+                (employeeListAdapter as EmployeeListAdapter).empSearchFilter(newText)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+        return false
+    }
 }
 
 /*
