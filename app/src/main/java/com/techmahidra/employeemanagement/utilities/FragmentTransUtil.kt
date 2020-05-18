@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentTransaction
 * */
 object FragmentTransUtil {
     fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int) { // add fragment
-        supportFragmentManager.inTransaction { add(frameId, fragment) }
+        supportFragmentManager.inAddTransaction { add(frameId, fragment) }
     }
 
     fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) { // replace fragment
@@ -18,6 +18,9 @@ object FragmentTransUtil {
     }
 
     private inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) { // fragment trans
+        beginTransaction().func().addToBackStack(null).commit()
+    }
+    private inline fun FragmentManager.inAddTransaction(func: FragmentTransaction.() -> FragmentTransaction) { // fragment trans
         beginTransaction().func().commit()
     }
 

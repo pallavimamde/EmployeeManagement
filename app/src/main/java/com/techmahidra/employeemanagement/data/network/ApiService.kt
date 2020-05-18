@@ -27,9 +27,9 @@ interface ApiService {
     fun getEmployeeList() : Deferred<EmployeeListResponse>
 
     @POST(API_CREATE_EMP)
-    fun getAddEmployee(@Body addEmployeeRequest: MutableLiveData<AddEmployeeRequest>) : Deferred<AddEmployeeResponse>
+    fun getAddEmployee(@Body addEmployeeRequest: AddEmployeeRequest) : Deferred<AddEmployeeResponse>
 
-    @DELETE(API_DELETE_EMP)
+    @GET(API_DELETE_EMP)
     fun deleteEmployee(@Path("id") id : Int) : Deferred<DeleteEmployeeResponse>
 
     companion object {

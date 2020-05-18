@@ -5,7 +5,9 @@
     <string name="name">Name : </string>
     <string name="age">Age : </string>
     <string name="salary">Salary : </string>
-    <string name="add_emp">Add Employee</string>
+    <string name="add_emp">Add Employee Information</string>
+    <string name="emp_list">Employee List</string>
+    <string name="emp_search_hint">Search by emp name</string>
     <string name="enter_your_name">Please enter your name</string>
     <string name="enter_your_age">Please enter your age</string>
     <string name="enter_your_salary">Please enter your salary</string>

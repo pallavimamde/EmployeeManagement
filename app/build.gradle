@@ -59,4 +59,11 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
+    // Testing dependencies
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    implementation 'androidx.fragment:fragment:1.1.0-alpha01'
+    implementation 'androidx.test:core:1.2.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.1.0-alpha01'
+
 }

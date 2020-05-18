@@ -3,24 +3,32 @@ package com.techmahidra.employeemanagement.ui.employeeList.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.techmahidra.employeemanagement.R
 import com.techmahidra.employeemanagement.core.EmployeeApplication
 import com.techmahidra.employeemanagement.data.response.EmployeeListResponse
 import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment
+import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment.Companion.deleteEmpId
+import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment.Companion.modifiedFeatureList
 import com.techmahidra.employeemanagement.utilities.loadImage
 import kotlinx.android.synthetic.main.adapter_employee_list.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /* *
 * EmployeeListAdapter - helps to bind data in feature recyclerview
 * highlight the selected list item*/
-class EmployeeListAdapter(private val empListFragment : EmployeeListFragment, private val employeeList: List<EmployeeListResponse.Data>) :
-    RecyclerView.Adapter<EmployeeListAdapter.ViewHolder>() {
-
+class EmployeeListAdapter(private val employeeList: ArrayList<EmployeeListResponse.Data>) :
+    RecyclerView.Adapter<EmployeeListAdapter.ViewHolder>(),Filterable {
     var rowIndex = -1 // default selected row index
-
+    var employeeListFragment: EmployeeListFragment = EmployeeListFragment()
+    var empFilterList = ArrayList<EmployeeListResponse.Data>()
+    init {
+        empFilterList = employeeList
+    }
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_employee_list, parent, false)
@@ -28,10 +36,10 @@ class EmployeeListAdapter(private val empListFragment : EmployeeListFragment, pr
     }
 
     //get list item count
-    override fun getItemCount() = employeeList.size
+    override fun getItemCount() = empFilterList.size
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(employeeList[position], position)
+        viewHolder.bind(empFilterList[position], position)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -69,30 +77,72 @@ class EmployeeListAdapter(private val empListFragment : EmployeeListFragment, pr
             }
         }
     }
-    fun empSearchFilter(charText: String) {
-        var charText = charText
-        charText = charText.toLowerCase(Locale.getDefault())
-        EmployeeListFragment.modifiedFeatureList.clear()
-        if (charText.length == 0) {
-            EmployeeListFragment.modifiedFeatureList.addAll(employeeList)
-            //empListFragment.showData()
-        } else {//getDriverList
-            for (item in employeeList) {
+    /*fun empSearchFilter(charText: String) {
+            var charText = charText
+            charText = charText.toLowerCase(Locale.getDefault())
+            EmployeeListFragment.modifiedFeatureList.clear()
+            if (charText.length == 0) {
+                EmployeeListFragment.modifiedFeatureList.addAll(employeeList)
+              //\  EmployeeListFragment.()
+            } else {
+                for (wp in employeeList) {
+                    *//* for(obj  in wp.tripDriverList)
+                     {
+                         if (obj.driverDetail != null)
+                         {
+                             if()
+                         }
 
-                if (item.employeeName.toLowerCase(Locale.getDefault()).contains(charText)) {
-                    EmployeeListFragment.modifiedFeatureList.add(item)
+                     }*//*
+                    //if (wp.tripId.toLowerCase(Locale.getDefault()).contains(charText)) {
+                    if (wp.employeeName.toLowerCase(Locale.getDefault()).contains(charText)) {
+                        EmployeeListFragment.modifiedFeatureList.add(wp)
+                    }
+                }
+                if( EmployeeListFragment.modifiedFeatureList.size==0)
+                {
+                   // homeFragment.showNoData(true, "No such trip available")
+                }
+                else
+                {
+                    employeeListFragment.updateUI(modifiedFeatureList)
                 }
             }
-            if(EmployeeListFragment.modifiedFeatureList.size==0)
-            {
-                empListFragment.showNoData()
+            notifyDataSetChanged()
+        }*/
+    fun removeAt(position: Int) {
+        deleteEmpId = employeeList[position].id.toInt()
+        employeeList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    empFilterList = employeeList
+                } else {
+                    val resultList = ArrayList<EmployeeListResponse.Data>()
+                    for (row in employeeList) {
+                        if (row.employeeName.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT))) {
+                            resultList.add(row)
+                        }
+                    }
+                    empFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = empFilterList
+                return filterResults
             }
-            else
-            {
-                empListFragment.updateUI(EmployeeListFragment.modifiedFeatureList)
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                empFilterList = results?.values as ArrayList<EmployeeListResponse.Data>
+                notifyDataSetChanged()
             }
+
         }
-        notifyDataSetChanged()
     }
 
 }
