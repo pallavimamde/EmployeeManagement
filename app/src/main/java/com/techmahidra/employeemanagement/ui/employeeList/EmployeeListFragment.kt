@@ -78,7 +78,7 @@ class EmployeeListFragment : Fragment(){
         }
 
     }
-
+// Search employee by employee name. Filter checks list as we type each and every char
     private fun searchFilter() {
         search_emp.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -94,6 +94,7 @@ class EmployeeListFragment : Fragment(){
 
     }
 
+    // Delete recyclerview item on swipe LEFT or RIGHT
     @RequiresApi(Build.VERSION_CODES.M)
     private fun swipeDelete() {
         val swipeHandler = object : SwipeToDeleteCallback() {
@@ -107,6 +108,7 @@ class EmployeeListFragment : Fragment(){
 
     }
 
+    // Delete api will call when nwe delete item by swipe
     @RequiresApi(Build.VERSION_CODES.M)
     private fun deleteEmployee() {
         val hasInternetConnected =
@@ -243,32 +245,5 @@ class EmployeeListFragment : Fragment(){
         rv_emp_info_list.visibility = View.VISIBLE
         tv_no_data.visibility = View.GONE
     }
-   /* override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
-    }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            try {
-                (employeeListAdapter as EmployeeListAdapter).empSearchFilter(newText)
-                rv_emp_info_list.adapter = employeeListAdapter
-                (employeeListAdapter as EmployeeListAdapter).notifyDataSetChanged()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-        }
-        return false
-    }
-*/
-}
-
-/*
-* UIHandler - helps to display user needed information while handling the server call
-* */
-interface UIHandler {
-    fun showLoading(loadingMessage: String)
-    fun hideLoading()
-    fun showNoData()
-    fun showError(errorMsg: String)
 }
