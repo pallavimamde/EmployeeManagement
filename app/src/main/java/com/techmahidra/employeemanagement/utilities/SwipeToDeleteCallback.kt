@@ -1,7 +1,6 @@
 package com.techmahidra.employeemanagement.utilities
 
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
 import androidx.recyclerview.widget.RecyclerView
 
 /*

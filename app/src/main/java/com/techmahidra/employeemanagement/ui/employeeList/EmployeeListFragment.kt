@@ -44,7 +44,7 @@ class EmployeeListFragment : Fragment() {
     private var isRefreshing = false
 
     companion object {
-        val modifiedFeatureList: ArrayList<EmployeeListResponse.Data> = ArrayList()
+        val modifiedEmployeeList: ArrayList<EmployeeListResponse.Data> = ArrayList()
         var deleteEmpId: Int = 0
     }
 
@@ -129,18 +129,9 @@ class EmployeeListFragment : Fragment() {
                         deleteEmployeeResponse.message,
                         Toast.LENGTH_SHORT
                     ).show()
-                    //hideLoading()
+                    hideLoading()
                 })
 
-
-            /*  //check the observer when api response is failed and show the error
-              employeeListViewModel.apiResponseFail.observe(
-                  this,
-                  Observer(function = fun(apiResponseFail: ApiResponseFail) {
-                      showError(apiResponseFail.error)
-                      hideLoading()
-                  })
-              )*/
         } else {
             showError(EmployeeApplication.applicationContext().resources.getString(R.string.network_error))
         }
@@ -177,7 +168,7 @@ class EmployeeListFragment : Fragment() {
     fun updateUI(response: List<EmployeeListResponse.Data>) {
 
         if (response.isNotEmpty()) {
-            modifiedFeatureList.clear()
+            modifiedEmployeeList.clear()
             for (item in response) {
 
                 var isAllNull = false
@@ -198,13 +189,13 @@ class EmployeeListFragment : Fragment() {
 
                 }
                 if (!isAllNull) {
-                    modifiedFeatureList.add(item)
+                    modifiedEmployeeList.add(item)
                 }
             }
             // initialize the @EmployeeListAdapter and set list
             rv_emp_info_list.layoutManager =
                 LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-            employeeListAdapter = EmployeeListAdapter(modifiedFeatureList)
+            employeeListAdapter = EmployeeListAdapter(modifiedEmployeeList)
             rv_emp_info_list.adapter = employeeListAdapter
         } else {
             showNoData()

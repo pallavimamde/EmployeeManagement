@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.techmahidra.employeemanagement.R
 import com.techmahidra.employeemanagement.core.EmployeeApplication
 import com.techmahidra.employeemanagement.data.response.EmployeeListResponse
-import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment
 import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment.Companion.deleteEmpId
-import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment.Companion.modifiedFeatureList
 import com.techmahidra.employeemanagement.utilities.loadImage
 import kotlinx.android.synthetic.main.adapter_employee_list.view.*
 import java.util.*
@@ -19,7 +17,7 @@ import kotlin.collections.ArrayList
 
 
 /* *
-* EmployeeListAdapter - helps to bind data in feature recyclerview
+* EmployeeListAdapter - helps to bind data in employee recyclerview
 * highlight the selected list item
 * */
 

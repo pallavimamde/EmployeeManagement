@@ -1,6 +1,5 @@
 package com.techmahidra.employeemanagement.data.network
 
-import androidx.lifecycle.MutableLiveData
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.techmahidra.employeemanagement.data.AddEmployeeRequest
 import com.techmahidra.employeemanagement.data.response.AddEmployeeResponse
@@ -8,7 +7,6 @@ import com.techmahidra.employeemanagement.data.response.DeleteEmployeeResponse
 import com.techmahidra.employeemanagement.data.response.EmployeeListResponse
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*

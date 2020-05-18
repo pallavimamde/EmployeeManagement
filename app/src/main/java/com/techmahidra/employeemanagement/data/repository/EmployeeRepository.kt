@@ -13,6 +13,9 @@ import com.techmahidra.employeemanagement.ui.addEmp.AddEmployeeFragment
 import com.techmahidra.employeemanagement.ui.employeeList.EmployeeListFragment
 import kotlinx.coroutines.*
 
+/*
+* EmployeeRepository - This class helps to maintain server call and handle the server response
+* */
 class EmployeeRepository() {
 
     // mutable objects for employeelist, create employee, delete employee

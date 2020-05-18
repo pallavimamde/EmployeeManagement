@@ -11,6 +11,11 @@ import com.techmahidra.employeemanagement.utilities.FragmentTransUtil.addFragmen
 import com.techmahidra.employeemanagement.utilities.FragmentTransUtil.replaceFragment
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
+
+/*
+* EmployeeActivity - This is lunching activity.
+* In this class we are setting title bar text, and replace fragment
+* */
 class EmployeeActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
