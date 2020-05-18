@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -83,7 +82,7 @@ class AddEmployeeFragment : Fragment(), View.OnClickListener {
             )
 
             // check the observer when api response is success and update list
-            employeeListViewModel?.addEmployeeVM?.observe(
+            employeeListViewModel?.addEmployeeVm?.observe(
                 this, Observer { addEmployeeResponse ->
                     updateUI(addEmployeeResponse)
                     hideLoading()

@@ -15,7 +15,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.*
 import org.mockito.Mockito.*
-import java.net.SocketException
 import io.reactivex.Maybe
 
 
@@ -42,16 +41,17 @@ internal class EmployeeListViewModelTest {
     // get employee list with positive and negative response handled
     @Test
     fun employeeListRepositories_positiveResponse() {
+
         `when`(this.apiService.getEmployeeList()).thenAnswer {
             return@thenAnswer Maybe.just(ArgumentMatchers.any<EmployeeRepository>())
         }
 
         val observer = mock(Observer::class.java) as Observer<List<EmployeeListResponse.Data>>
-        this.employeeListViewModel.employeeListVM.observeForever(observer)
+        this.employeeListViewModel.employeeListVm.observeForever(observer)
 
-        this.employeeListViewModel.employeeListVM
+        this.employeeListViewModel.employeeListVm
 
-        assertNotNull(this.employeeListViewModel.employeeListVM.value)
+        assertNotNull(this.employeeListViewModel.employeeListVm.value)
     }
 
     // create employee with positive and negative response handled
@@ -62,11 +62,11 @@ internal class EmployeeListViewModelTest {
         }
 
         val observer = mock(Observer::class.java) as Observer<AddEmployeeResponse>
-        this.employeeListViewModel.addEmployeeVM.observeForever(observer)
+        this.employeeListViewModel.addEmployeeVm.observeForever(observer)
 
-        this.employeeListViewModel.addEmployeeVM
+        this.employeeListViewModel.addEmployeeVm
 
-        assertNotNull(this.employeeListViewModel.addEmployeeVM.value)
+        assertNotNull(this.employeeListViewModel.addEmployeeVm.value)
     }
 
     // delete employee list with positive and negative response handled
@@ -77,11 +77,11 @@ internal class EmployeeListViewModelTest {
         }
 
         val observer = mock(Observer::class.java) as Observer<DeleteEmployeeResponse>
-        this.employeeListViewModel.deleteEmployeeVM.observeForever(observer)
+        this.employeeListViewModel.deleteEmployeeVm.observeForever(observer)
 
-        this.employeeListViewModel.deleteEmployeeVM
+        this.employeeListViewModel.deleteEmployeeVm
 
-        assertNotNull(this.employeeListViewModel.deleteEmployeeVM.value)
+        assertNotNull(this.employeeListViewModel.deleteEmployeeVm.value)
     }
 
 

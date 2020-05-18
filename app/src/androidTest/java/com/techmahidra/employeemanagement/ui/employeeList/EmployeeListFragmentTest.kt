@@ -30,21 +30,19 @@ class EmployeeListFragmentTest {
     var mActivityTestRule = ActivityTestRule(EmployeeActivity::class.java)
 
     @Test
-    fun test_isButtonTitleDisplayed() {
-        val imageBtn = Espresso.onView(
-            Matchers.allOf(
-                withId(R.id.imgbtn_emp_add),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.toolbar),
-                        1
-                    ),
-                    0
-                ),
-                ViewMatchers.isDisplayed()
-            )
-        )
-        imageBtn.check(ViewAssertions.matches(ViewMatchers.withId(R.id.imgbtn_emp_add)))
+    fun recyclerViewTestScrolling() {
+        Espresso.onView(ViewMatchers.withId(R.id.rv_emp_info_list))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun recyclerViewTestScrollingToPositionEndIndex() {
+        Espresso.onView(ViewMatchers.withId(R.id.rv_emp_info_list)).perform(ViewActions.swipeUp())
+    }
+
+    @Test
+    fun recyclerViewTestScrollingToPositionTop() {
+        Espresso.onView(ViewMatchers.withId(R.id.rv_emp_info_list)).perform(ViewActions.swipeDown())
     }
 
     private fun childAtPosition(
@@ -65,23 +63,5 @@ class EmployeeListFragmentTest {
         }
     }
 
-    @Test
-    fun isAddButtonClick() {
-        val activityScenario = ActivityScenario.launch(EmployeeActivity::class.java)
-        val actionMenuItemView = Espresso.onView(
-            Matchers.allOf(
-                withId(R.id.imgbtn_emp_add),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.toolbar),
-                        1
-                    ),
-                    0
-                ),
-                ViewMatchers.isDisplayed()
-            )
-        )
-        actionMenuItemView.perform(ViewActions.click())
 
-    }
 }

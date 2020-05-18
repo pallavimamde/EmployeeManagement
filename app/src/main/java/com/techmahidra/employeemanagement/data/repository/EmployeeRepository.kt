@@ -3,6 +3,8 @@ package com.techmahidra.employeemanagement.data.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.load.HttpException
+import com.techmahidra.employeemanagement.R
+import com.techmahidra.employeemanagement.core.EmployeeApplication
 import com.techmahidra.employeemanagement.data.network.ApiService
 import com.techmahidra.employeemanagement.data.response.AddEmployeeResponse
 import com.techmahidra.employeemanagement.data.response.DeleteEmployeeResponse
@@ -38,11 +40,14 @@ class EmployeeRepository() {
                 try {
 
                     val response = request.await()
-                    if (response != null) {
+                    if (response.status == EmployeeApplication.applicationContext().resources.getString(
+                            R.string.success
+                        )
+                    ) {
                         employees = response.data as MutableList<EmployeeListResponse.Data>
                         employeeMutableLiveData.value = employees
                     } else {
-
+                        Log.e(TAG, "Response is null")
                     }
 
                 } catch (e: HttpException) {
@@ -62,12 +67,14 @@ class EmployeeRepository() {
             val request = AddEmployeeFragment.empInfo?.let { thisApiCorService.getAddEmployee(it) }
             withContext(Dispatchers.Main) {
                 try {
-
                     val response = request?.await()!!
-                    if (response != null) {
+                    if (response.status == EmployeeApplication.applicationContext().resources.getString(
+                            R.string.success
+                        )
+                    ) {
                         employeeInfoMutableLiveData.value = response
                     } else {
-
+                        Log.e(TAG, "Response is null")
                     }
 
                 } catch (e: HttpException) {
@@ -90,10 +97,13 @@ class EmployeeRepository() {
                 try {
 
                     val response = request?.await()!!
-                    if (response != null) {
+                    if (response.status == EmployeeApplication.applicationContext().resources.getString(
+                            R.string.success
+                        )
+                    ) {
                         deleteEmpMutableLiveData.value = response
                     } else {
-
+                        Log.e(TAG, "Response is null")
                     }
 
                 } catch (e: HttpException) {

@@ -1,7 +1,6 @@
 package com.techmahidra.employeemanagement.ui.employeeList
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.ActionBar
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
@@ -17,7 +16,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -124,7 +122,7 @@ class EmployeeListFragment : Fragment() {
             )
 
             // check the observer when api response is success and update list
-            employeeListViewModel?.deleteEmployeeVM?.observe(
+            employeeListViewModel?.deleteEmployeeVm?.observe(
                 this, Observer { deleteEmployeeResponse ->
                     Toast.makeText(
                         EmployeeApplication.applicationContext(),
@@ -163,7 +161,7 @@ class EmployeeListFragment : Fragment() {
                 )
             }
             // check the observer when api response is success and update list
-            employeeListViewModel?.employeeListVM?.observe(
+            employeeListViewModel?.employeeListVm?.observe(
                 this, Observer { employeeListResponse ->
                     updateUI(employeeListResponse)
                     hideLoading()

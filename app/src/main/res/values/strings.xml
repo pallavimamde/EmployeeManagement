@@ -15,4 +15,5 @@
     <string name="please_wait">Please wait while data is loading...</string>
     <string name="network_error">Please check your internet connection and try again</string>
     <string name="no_data">No content available</string>
+    <string name="success">Success</string>
 </resources>

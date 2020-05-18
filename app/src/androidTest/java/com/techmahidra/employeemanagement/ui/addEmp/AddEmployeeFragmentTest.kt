@@ -22,14 +22,12 @@ import org.junit.Test
 class AddEmployeeFragmentTest {
     @Test
     fun test_isActivityInView() {
-        val activityScenario = ActivityScenario.launch(EmployeeActivity::class.java)
         Espresso.onView(withId(R.id.layout_activity_emp))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @Test
     fun test_isSearchDisplayed() {
-        val activityScenario = ActivityScenario.launch(EmployeeActivity::class.java)
         val linearLayout = onView(
             Matchers.allOf(
                 childAtPosition(
