@@ -20,6 +20,7 @@ object FragmentTransUtil {
     private inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) { // fragment trans
         beginTransaction().func().addToBackStack(null).commit()
     }
+
     private inline fun FragmentManager.inAddTransaction(func: FragmentTransaction.() -> FragmentTransaction) { // fragment trans
         beginTransaction().func().commit()
     }

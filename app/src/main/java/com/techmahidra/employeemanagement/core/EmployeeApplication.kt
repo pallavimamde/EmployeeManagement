@@ -4,10 +4,9 @@ import android.app.Application
 import android.content.Context
 
 /* *
-* TelstraApplication - Base application, create singleton instance of class
+* EmployeeApplication - Base application, create singleton instance of class
 * */
 class EmployeeApplication : Application() {
-    lateinit var sharedPrefs : PreferencesImpl
 
     init {
         instance = this
@@ -24,15 +23,6 @@ class EmployeeApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        sharedPrefs = PreferencesImpl(this)
     }
-
-    fun getEmpInfo(): PreferencesImpl {
-        return sharedPrefs
-    }
-
-
-
-
 
 }

@@ -19,51 +19,52 @@ import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.IsInstanceOf
 import org.junit.Test
 
-class AddEmployeeFragmentTest
-@Test
-fun test_isActivityInView() {
-    val activityScenario= ActivityScenario.launch(EmployeeActivity::class.java)
-    Espresso.onView(withId(R.id.layout_activity_emp)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-}
+class AddEmployeeFragmentTest {
+    @Test
+    fun test_isActivityInView() {
+        val activityScenario = ActivityScenario.launch(EmployeeActivity::class.java)
+        Espresso.onView(withId(R.id.layout_activity_emp))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
 
-@Test
-fun test_isSearchDisplayed()
-{
-    val activityScenario=ActivityScenario.launch(EmployeeActivity::class.java)
-    val linearLayout = onView(
-        Matchers.allOf(
-            childAtPosition(
-                Matchers.allOf(
-                    withId(R.id.search_emp),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(RelativeLayout::class.java),
-                        1
-                    )
+    @Test
+    fun test_isSearchDisplayed() {
+        val activityScenario = ActivityScenario.launch(EmployeeActivity::class.java)
+        val linearLayout = onView(
+            Matchers.allOf(
+                childAtPosition(
+                    Matchers.allOf(
+                        withId(R.id.search_emp),
+                        childAtPosition(
+                            IsInstanceOf.instanceOf(RelativeLayout::class.java),
+                            1
+                        )
+                    ),
+                    0
                 ),
-                0
-            ),
-            isDisplayed()
+                isDisplayed()
+            )
         )
-    )
-    linearLayout.check(matches(isDisplayed()))
+        linearLayout.check(matches(isDisplayed()))
 
 
+    }
 
-}
-private fun childAtPosition(
-    parentMatcher: Matcher<View>, position: Int
-): Matcher<View> {
+    private fun childAtPosition(
+        parentMatcher: Matcher<View>, position: Int
+    ): Matcher<View> {
 
-    return object : TypeSafeMatcher<View>() {
-        override fun describeTo(description: Description) {
-            description.appendText("Child at position $position in parent ")
-            parentMatcher.describeTo(description)
-        }
+        return object : TypeSafeMatcher<View>() {
+            override fun describeTo(description: Description) {
+                description.appendText("Child at position $position in parent ")
+                parentMatcher.describeTo(description)
+            }
 
-        public override fun matchesSafely(view: View): Boolean {
-            val parent = view.parent
-            return parent is ViewGroup && parentMatcher.matches(parent)
-                    && view == parent.getChildAt(position)
+            public override fun matchesSafely(view: View): Boolean {
+                val parent = view.parent
+                return parent is ViewGroup && parentMatcher.matches(parent)
+                        && view == parent.getChildAt(position)
+            }
         }
     }
 }

@@ -31,10 +31,9 @@ class EmployeeActivityTest {
     fun EmployeeActivityTestTest2() {
         val appCompatImageView = onView(
             allOf(
-                withId(R.id.search_button), withContentDescription("Search"),
+                withId(R.id.search_emp), withContentDescription("Search"),
                 childAtPosition(
                     allOf(
-                        withId(R.id.search_bar),
                         childAtPosition(
                             withId(R.id.search_emp),
                             0
@@ -47,50 +46,15 @@ class EmployeeActivityTest {
         )
         appCompatImageView.perform(click())
 
-        val searchAutoComplete = onView(
-            allOf(
-                withId(R.id.search_src_text),
-                childAtPosition(
-                    allOf(
-                        withId(R.id.search_plate),
-                        childAtPosition(
-                            withId(R.id.search_edit_frame),
-                            1
-                        )
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        searchAutoComplete.perform(replaceText("a"), closeSoftKeyboard())
-
-        val appCompatImageView2 = onView(
-            allOf(
-                withId(R.id.search_close_btn), withContentDescription("Clear query"),
-                childAtPosition(
-                    allOf(
-                        withId(R.id.search_plate),
-                        childAtPosition(
-                            withId(R.id.search_edit_frame),
-                            1
-                        )
-                    ),
-                    1
-                ),
-                isDisplayed()
-            )
-        )
-        appCompatImageView2.perform(click())
 
         val appCompatImageView3 = onView(
             allOf(
                 withId(R.id.search_close_btn), withContentDescription("Clear query"),
                 childAtPosition(
                     allOf(
-                        withId(R.id.search_plate),
+                        withId(R.id.search_emp),
                         childAtPosition(
-                            withId(R.id.search_edit_frame),
+                            withId(R.id.search_emp),
                             1
                         )
                     ),
@@ -121,7 +85,6 @@ class EmployeeActivityTest {
 
         val linearLayout = onView(
             allOf(
-                withId(R.id.search_bar),
                 childAtPosition(
                     allOf(
                         withId(R.id.search_emp),
@@ -137,23 +100,6 @@ class EmployeeActivityTest {
         )
         linearLayout.check(matches(isDisplayed()))
 
-        val imageView = onView(
-            allOf(
-                withId(R.id.search_button), withContentDescription("Search"),
-                childAtPosition(
-                    allOf(
-                        withId(R.id.search_bar),
-                        childAtPosition(
-                            withId(R.id.search_emp),
-                            0
-                        )
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        imageView.check(matches(isDisplayed()))
 
         val linearLayout2 = onView(
             allOf(
@@ -171,21 +117,6 @@ class EmployeeActivityTest {
             )
         )
         linearLayout2.check(matches(isDisplayed()))
-
-        val textView2 = onView(
-            allOf(
-                withId(R.id.imgbtn_emp_add),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.toolbar),
-                        1
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        textView2.check(matches(withId(R.id.imgbtn_emp_add)))
 
 
         val editText = onView(
@@ -233,23 +164,9 @@ class EmployeeActivityTest {
         )
         editText3.check(matches(withText("Salary")))
 
+
         val editText4 = onView(
             allOf(
-                withText("Salary"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.tv_emp_salary),
-                        0
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        editText4.check(matches(isDisplayed()))
-
-        val editText5 = onView(
-            allOf(
                 withText("Age"),
                 childAtPosition(
                     childAtPosition(
@@ -261,22 +178,8 @@ class EmployeeActivityTest {
                 isDisplayed()
             )
         )
-        editText5.check(matches(withText("Age")))
+        editText4.check(matches(withText("Age")))
 
-        val editText6 = onView(
-            allOf(
-                withText("Age"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.tv_emp_age),
-                        0
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        editText6.check(matches(isDisplayed()))
 
         val button = onView(
             allOf(
@@ -293,20 +196,6 @@ class EmployeeActivityTest {
         )
         button.check(matches(isDisplayed()))
 
-        val button2 = onView(
-            allOf(
-                withId(R.id.btn_add_emp_submit),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.emplist_activity_container),
-                        0
-                    ),
-                    3
-                ),
-                isDisplayed()
-            )
-        )
-        button2.check(matches(isDisplayed()))
 
         val textInputEditText = onView(
             allOf(
@@ -326,7 +215,7 @@ class EmployeeActivityTest {
             allOf(
                 childAtPosition(
                     childAtPosition(
-                        withId(R.id.tv_emp_name),
+                        withId(R.id.tv_emp_salary),
                         0
                     ),
                     0
@@ -340,7 +229,7 @@ class EmployeeActivityTest {
             allOf(
                 childAtPosition(
                     childAtPosition(
-                        withId(R.id.tv_emp_salary),
+                        withId(R.id.tv_emp_age),
                         0
                     ),
                     0
@@ -377,6 +266,20 @@ class EmployeeActivityTest {
             )
         )
         textInputEditText5.perform(replaceText("6"), closeSoftKeyboard())
+
+        val textInputEditText6 = onView(
+            allOf(
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.tv_emp_name),
+                        0
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        textInputEditText6.perform(replaceText("30"), closeSoftKeyboard())
 
         val appCompatButton = onView(
             allOf(

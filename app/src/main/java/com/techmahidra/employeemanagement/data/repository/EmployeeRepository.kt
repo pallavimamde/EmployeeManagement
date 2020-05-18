@@ -13,6 +13,7 @@ import kotlinx.coroutines.*
 
 class EmployeeRepository() {
 
+    // mutable objects for employeelist, create employee, delete employee
     private var employees = mutableListOf<EmployeeListResponse.Data>()
     private var employeeMutableLiveData = MutableLiveData<List<EmployeeListResponse.Data>>()
     private var employeeInfoMutableLiveData = MutableLiveData<AddEmployeeResponse>()
@@ -23,11 +24,14 @@ class EmployeeRepository() {
     private val coroutineScope = CoroutineScope(Dispatchers.IO + completableJob)
     private val TAG = "EmployeeRepository"
 
+
+    // api service lazy call
     private val thisApiCorService by lazy {
         ApiService.createCorService()
     }
 
-    fun getEmpMutableLiveData():MutableLiveData<List<EmployeeListResponse.Data>> {
+    // get employee list from server and check response
+    fun getEmpMutableLiveData(): MutableLiveData<List<EmployeeListResponse.Data>> {
         coroutineScope.launch {
             val request = thisApiCorService.getEmployeeList()
             withContext(Dispatchers.Main) {
@@ -36,21 +40,23 @@ class EmployeeRepository() {
                     val response = request.await()
                     if (response != null) {
                         employees = response.data as MutableList<EmployeeListResponse.Data>
-                        employeeMutableLiveData.value=employees
-                    }else{
+                        employeeMutableLiveData.value = employees
+                    } else {
 
                     }
 
                 } catch (e: HttpException) {
-                    // Log exception //
+                    Log.e(TAG, e.message)
 
                 } catch (e: Throwable) {
-                    Log.e(TAG,e.message)
+                    Log.e(TAG, e.message)
                 }
             }
         }
         return employeeMutableLiveData
     }
+
+    // create employee and request to add employee
     fun submitEmpInfo(): MutableLiveData<AddEmployeeResponse> {
         coroutineScope.launch {
             val request = AddEmployeeFragment.empInfo?.let { thisApiCorService.getAddEmployee(it) }
@@ -60,39 +66,42 @@ class EmployeeRepository() {
                     val response = request?.await()!!
                     if (response != null) {
                         employeeInfoMutableLiveData.value = response
-                    }else{
+                    } else {
 
                     }
 
                 } catch (e: HttpException) {
-                    Log.e(TAG,e.message)
+                    Log.e(TAG, e.message)
 
                 } catch (e: Throwable) {
-                    Log.e(TAG,e.message)
+                    Log.e(TAG, e.message)
                 }
             }
         }
         return employeeInfoMutableLiveData
     }
 
+    // delete api will hit to remove employee from server
     fun deleteEmp(): MutableLiveData<DeleteEmployeeResponse> {
         coroutineScope.launch {
-            val request = EmployeeListFragment.deleteEmpId?.let { thisApiCorService.deleteEmployee(it) }
+            val request =
+                EmployeeListFragment.deleteEmpId?.let { thisApiCorService.deleteEmployee(it) }
             withContext(Dispatchers.Main) {
                 try {
 
                     val response = request?.await()!!
                     if (response != null) {
                         deleteEmpMutableLiveData.value = response
-                    }else{
+                    } else {
 
                     }
 
                 } catch (e: HttpException) {
-                    Log.e(TAG,e.message)
+                    Log.e(TAG, e.message)
 
                 } catch (e: Throwable) {
-                    Log.e(TAG,e.message)
+
+                    Log.e(TAG, e.message)
                 }
             }
         }

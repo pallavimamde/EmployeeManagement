@@ -35,18 +35,19 @@ import kotlinx.android.synthetic.main.no_data_layout.*
  * A simple [Fragment] subclass.
  * Use the [EmployeeListFragment.newInstance] factory method to
  * create an instance of this fragment.
+ *
+ * Helps to show the list of employees
  */
-class EmployeeListFragment : Fragment(){
+class EmployeeListFragment : Fragment() {
 
     private var employeeListViewModel: EmployeeListViewModel? = null
     private var employeeListAdapter: RecyclerView.Adapter<EmployeeListAdapter.ViewHolder>? = null
-    private var actionBar: ActionBar? = null
     private lateinit var loadingDialog: Dialog
     private var isRefreshing = false
 
     companion object {
         val modifiedFeatureList: ArrayList<EmployeeListResponse.Data> = ArrayList()
-        var deleteEmpId : Int = 0
+        var deleteEmpId: Int = 0
     }
 
     // Inflate the layout for this fragment
@@ -78,7 +79,8 @@ class EmployeeListFragment : Fragment(){
         }
 
     }
-// Search employee by employee name. Filter checks list as we type each and every char
+
+    // Search employee by employee name. Filter checks list as we type each and every char
     private fun searchFilter() {
         search_emp.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -115,16 +117,20 @@ class EmployeeListFragment : Fragment(){
             NetworkConnectionStatus(EmployeeApplication.applicationContext()).isOnline()
         if (hasInternetConnected) {
 
-                showLoading(
-                    EmployeeApplication.applicationContext().resources.getString(
-                        R.string.please_wait
-                    )
+            showLoading(
+                EmployeeApplication.applicationContext().resources.getString(
+                    R.string.please_wait
                 )
+            )
 
             // check the observer when api response is success and update list
             employeeListViewModel?.deleteEmployeeVM?.observe(
                 this, Observer { deleteEmployeeResponse ->
-                    Toast.makeText(EmployeeApplication.applicationContext(),deleteEmployeeResponse.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        EmployeeApplication.applicationContext(),
+                        deleteEmployeeResponse.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                     //hideLoading()
                 })
 
@@ -163,15 +169,6 @@ class EmployeeListFragment : Fragment(){
                     hideLoading()
                 })
 
-
-            /*  //check the observer when api response is failed and show the error
-              employeeListViewModel.apiResponseFail.observe(
-                  this,
-                  Observer(function = fun(apiResponseFail: ApiResponseFail) {
-                      showError(apiResponseFail.error)
-                      hideLoading()
-                  })
-              )*/
         } else {
             showError(EmployeeApplication.applicationContext().resources.getString(R.string.network_error))
         }
@@ -207,7 +204,8 @@ class EmployeeListFragment : Fragment(){
                 }
             }
             // initialize the @EmployeeListAdapter and set list
-            rv_emp_info_list.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+            rv_emp_info_list.layoutManager =
+                LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
             employeeListAdapter = EmployeeListAdapter(modifiedFeatureList)
             rv_emp_info_list.adapter = employeeListAdapter
         } else {
@@ -216,32 +214,32 @@ class EmployeeListFragment : Fragment(){
     }
 
 
-
     // if there will be any error occurred while server call
-     fun showError(errorMsg: String) {
+    fun showError(errorMsg: String) {
         Toast.makeText(EmployeeApplication.applicationContext(), errorMsg, Toast.LENGTH_SHORT)
             .show()
     }
 
     // show dialog while loading data from server
-     fun showLoading(loadingMessage: String) {
+    fun showLoading(loadingMessage: String) {
         loadingDialog.setContentView(R.layout.progress_bar)
 //        loadingDialog.show()
 
     }
 
     // hide loading
-     fun hideLoading() {
+    fun hideLoading() {
         loadingDialog.dismiss()
     }
 
     // if there is empty list then so no data layout
-     fun showNoData() {
+    fun showNoData() {
         rv_emp_info_list.visibility = View.GONE
         tv_no_data.visibility = View.VISIBLE
     }
-    fun showData()
-    {
+
+    // show employee list if list available else show no data view
+    fun showData() {
         rv_emp_info_list.visibility = View.VISIBLE
         tv_no_data.visibility = View.GONE
     }

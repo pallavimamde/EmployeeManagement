@@ -28,10 +28,10 @@ class EmployeeListFragmentTest {
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(EmployeeActivity::class.java)
+
     @Test
-    fun test_isButtonTitleDisplayed()
-    {
-        val textView3 = Espresso.onView(
+    fun test_isButtonTitleDisplayed() {
+        val imageBtn = Espresso.onView(
             Matchers.allOf(
                 withId(R.id.imgbtn_emp_add),
                 childAtPosition(
@@ -44,7 +44,7 @@ class EmployeeListFragmentTest {
                 ViewMatchers.isDisplayed()
             )
         )
-        textView3.check(ViewAssertions.matches(ViewMatchers.withText("ADD")))
+        imageBtn.check(ViewAssertions.matches(ViewMatchers.withId(R.id.imgbtn_emp_add)))
     }
 
     private fun childAtPosition(
@@ -66,9 +66,8 @@ class EmployeeListFragmentTest {
     }
 
     @Test
-    fun isAddButtonClick()
-    {
-        val activityScenario=ActivityScenario.launch(EmployeeActivity::class.java)
+    fun isAddButtonClick() {
+        val activityScenario = ActivityScenario.launch(EmployeeActivity::class.java)
         val actionMenuItemView = Espresso.onView(
             Matchers.allOf(
                 withId(R.id.imgbtn_emp_add),

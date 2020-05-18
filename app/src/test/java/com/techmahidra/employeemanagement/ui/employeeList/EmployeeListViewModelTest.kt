@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.techmahidra.employeemanagement.data.network.ApiService
 import com.techmahidra.employeemanagement.data.repository.EmployeeRepository
+import com.techmahidra.employeemanagement.data.response.AddEmployeeResponse
+import com.techmahidra.employeemanagement.data.response.DeleteEmployeeResponse
 import com.techmahidra.employeemanagement.data.response.EmployeeListResponse
 import org.junit.Before
 import org.junit.Test
@@ -37,8 +39,9 @@ internal class EmployeeListViewModelTest {
         this.employeeListViewModel = EmployeeListViewModel()
     }
 
+    // get employee list with positive and negative response handled
     @Test
-    fun fetchRepositories_positiveResponse() {
+    fun employeeListRepositories_positiveResponse() {
         `when`(this.apiService.getEmployeeList()).thenAnswer {
             return@thenAnswer Maybe.just(ArgumentMatchers.any<EmployeeRepository>())
         }
@@ -48,23 +51,37 @@ internal class EmployeeListViewModelTest {
 
         this.employeeListViewModel.employeeListVM
 
-        assertNotNull(this.employeeListViewModel.featureResponse.value)
+        assertNotNull(this.employeeListViewModel.employeeListVM.value)
     }
 
+    // create employee with positive and negative response handled
     @Test
-    fun fetchRepositories_error() {
+    fun employeeAddRepositories_positiveResponse() {
         `when`(this.apiService.getEmployeeList()).thenAnswer {
             return@thenAnswer Maybe.just(ArgumentMatchers.any<EmployeeRepository>())
         }
 
-        val observer = mock(Observer::class.java) as Observer<List<EmployeeListResponse.Data>>
-        this.employeeListViewModel.employeeListVM.observeForever(observer)
+        val observer = mock(Observer::class.java) as Observer<AddEmployeeResponse>
+        this.employeeListViewModel.addEmployeeVM.observeForever(observer)
 
-        this.employeeListViewModel.employeeListVM
+        this.employeeListViewModel.addEmployeeVM
 
-        assertNotNull(this.employeeListViewModel.featureResponse.value)
-        assertNotNull(this.employeeListViewModel.featureResponse.value)
-        assert(this.employeeListViewModel.featureResponse.value?.error is String)
+        assertNotNull(this.employeeListViewModel.addEmployeeVM.value)
+    }
+
+    // delete employee list with positive and negative response handled
+    @Test
+    fun employeeDeleteRepositories_positiveResponse() {
+        `when`(this.apiService.getEmployeeList()).thenAnswer {
+            return@thenAnswer Maybe.just(ArgumentMatchers.any<EmployeeRepository>())
+        }
+
+        val observer = mock(Observer::class.java) as Observer<DeleteEmployeeResponse>
+        this.employeeListViewModel.deleteEmployeeVM.observeForever(observer)
+
+        this.employeeListViewModel.deleteEmployeeVM
+
+        assertNotNull(this.employeeListViewModel.deleteEmployeeVM.value)
     }
 
 

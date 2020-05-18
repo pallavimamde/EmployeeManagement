@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.techmahidra.employeemanagement.R
@@ -29,11 +28,12 @@ import kotlinx.android.synthetic.main.fragment_add_employee.*
  * A simple [Fragment] subclass.
  * Use the [AddEmployeeFragment.newInstance] factory method to
  * create an instance of this fragment.
+ *
+ * collect employee information and add employee to database
  */
 class AddEmployeeFragment : Fragment(), View.OnClickListener {
 
     private var employeeListViewModel: EmployeeListViewModel? = null
-    private var actionBar: ActionBar? = null
     private lateinit var loadingDialog: Dialog
 
     companion object {
@@ -89,15 +89,6 @@ class AddEmployeeFragment : Fragment(), View.OnClickListener {
                     hideLoading()
                 })
 
-
-            /*  //check the observer when api response is failed and show the error
-              employeeListViewModel.apiResponseFail.observe(
-                  this,
-                  Observer(function = fun(apiResponseFail: ApiResponseFail) {
-                      showError(apiResponseFail.error)
-                      hideLoading()
-                  })
-              )*/
         } else {
             showError(EmployeeApplication.applicationContext().resources.getString(R.string.network_error))
         }
@@ -136,9 +127,5 @@ class AddEmployeeFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         collectEmpInfo()
     }
-
-    /*override fun onBackPressed(): Boolean {
-        return true
-    }*/
 
 }

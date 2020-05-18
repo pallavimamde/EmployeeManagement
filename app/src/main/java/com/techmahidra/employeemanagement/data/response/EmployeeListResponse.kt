@@ -3,6 +3,8 @@ package com.techmahidra.employeemanagement.data.response
 
 import com.google.gson.annotations.SerializedName
 
+
+// Server call Employee list response
 data class EmployeeListResponse(
     val `data`: List<Data>,
     val status: String // success
